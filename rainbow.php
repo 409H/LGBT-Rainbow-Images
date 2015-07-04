@@ -17,6 +17,15 @@ switch( strtoupper(finfo_file($resFinfo, $argv[1])) ) {
     case 'IMAGE/JPEG' :
     case 'IMAGE/JPG' :
         $resImage = imagecreatefromjpeg($argv[1]);
+        define("__FILE_TYPE__", "JPG");
+        break;
+    case 'IMAGE/PNG' :
+        $resImage = imagecreatefrompng($argv[1]);
+        define("__FILE_TYPE__", "PNG");
+        break;
+    case 'IMAGE/GIF' :
+        $resImage = imagecreatefromgif($argv[1]);
+        define("__FILE_TYPE__", "GIF");
         break;
     default :
         die("\r\nInvalid file type!\r\n");
@@ -65,7 +74,20 @@ foreach($arrColours as $intHexColour) {
 }
 
 imagecopymerge($resImage, $resTrueColor, 0, 0, 0, 0, $arrImageSize[0], $arrImageSize[1], 30);
-imagejpeg($resImage, 'rainbow_'.$argv[1]);
+switch(__FILE_TYPE__) {
+    case 'JPG' :
+        imagejpeg($resImage, 'rainbow_'.$argv[1]);
+        break;
+    case 'GIF' :
+        imagegif($resImage, 'rainbow_'.$argv[1]);
+        break;
+    case 'PNG' :
+        imagepng($resImage, 'rainbow_'.$argv[1]);
+        break;
+    default :
+        die("\r\nUnsupported file type\r\n");
+        break;
+}
 imagedestroy($resImage);
 
 die("\r\nImage has been rainbowfied!\r\n");
