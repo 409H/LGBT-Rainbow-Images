@@ -1,8 +1,5 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 //See if they passed a image argument
 if( isset($argv[1]) == FALSE ) {
     die("\r\nNo picture was passed through!\r\n");
